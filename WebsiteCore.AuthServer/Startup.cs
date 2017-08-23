@@ -50,12 +50,14 @@ namespace WebsiteCore.AuthServer
                 .AddTemporarySigningCredential()
                 //.AddSigningCredential()
                 .AddInMemoryPersistedGrants()
+                /* Add-Migration InitialIdentityServerMigration -Context PersistedGrantDbContext */
                 //.AddOperationalStore(builder =>
                 //    builder.UseSqlServer(connectionString, options =>
                 //        options.MigrationsAssembly(migrationsAssembly)))
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
+                /* Add-Migration InitialIdentityServerMigration -Context ConfigurationDbContext */
                 //.AddConfigurationStore(builder =>
                 //    builder.UseSqlServer(connectionString, options =>
                 //        options.MigrationsAssembly(migrationsAssembly)))
