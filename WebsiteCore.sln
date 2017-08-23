@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{0818
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientCredential", "ClientCredential\ClientCredential.csproj", "{7A4F3FCD-AF71-4655-96F5-BC5767EC4C0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceOwnerClient", "ResourceOwnerClient\ResourceOwnerClient.csproj", "{F99609EE-C5AB-461E-8247-C88676631A4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +25,17 @@ Global
 		{7A4F3FCD-AF71-4655-96F5-BC5767EC4C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A4F3FCD-AF71-4655-96F5-BC5767EC4C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A4F3FCD-AF71-4655-96F5-BC5767EC4C0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F99609EE-C5AB-461E-8247-C88676631A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F99609EE-C5AB-461E-8247-C88676631A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F99609EE-C5AB-461E-8247-C88676631A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F99609EE-C5AB-461E-8247-C88676631A4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7A4F3FCD-AF71-4655-96F5-BC5767EC4C0C} = {08181F6D-07B2-4CE8-9296-CDE74068F73A}
+		{F99609EE-C5AB-461E-8247-C88676631A4A} = {08181F6D-07B2-4CE8-9296-CDE74068F73A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63717C28-0503-41D7-A740-52C250A28AA6}
