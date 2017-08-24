@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebsiteCore.AuthServer", "W
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{08181F6D-07B2-4CE8-9296-CDE74068F73A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientCredential", "ClientCredential\ClientCredential.csproj", "{7A4F3FCD-AF71-4655-96F5-BC5767EC4C0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientCredential", "ClientCredential\ClientCredential.csproj", "{7A4F3FCD-AF71-4655-96F5-BC5767EC4C0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceOwnerClient", "ResourceOwnerClient\ResourceOwnerClient.csproj", "{F99609EE-C5AB-461E-8247-C88676631A4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceOwnerClient", "ResourceOwnerClient\ResourceOwnerClient.csproj", "{F99609EE-C5AB-461E-8247-C88676631A4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HybridClient", "HybridClient\HybridClient.csproj", "{CD354AAB-3017-4141-A40C-4FC531169344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HybridClient", "HybridClient\HybridClient.csproj", "{CD354AAB-3017-4141-A40C-4FC531169344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsiteCore.WebApi", "WebsiteCore.WebApi\WebsiteCore.WebApi.csproj", "{933D6535-3E16-4E91-9DAB-DBF3464966E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{CD354AAB-3017-4141-A40C-4FC531169344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD354AAB-3017-4141-A40C-4FC531169344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD354AAB-3017-4141-A40C-4FC531169344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{933D6535-3E16-4E91-9DAB-DBF3464966E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{933D6535-3E16-4E91-9DAB-DBF3464966E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{933D6535-3E16-4E91-9DAB-DBF3464966E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{933D6535-3E16-4E91-9DAB-DBF3464966E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
