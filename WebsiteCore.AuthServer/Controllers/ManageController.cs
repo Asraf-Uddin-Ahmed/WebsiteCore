@@ -8,6 +8,7 @@ using WebsiteCore.AuthServer.Models;
 using WebsiteCore.AuthServer.Models.ManageViewModels;
 using WebsiteCore.AuthServer.Services;
 using IdentityServer4.Quickstart.UI;
+using WebsiteCore.Foundation.Core.Entities.Auth;
 
 namespace WebsiteCore.AuthServer.Controllers
 {

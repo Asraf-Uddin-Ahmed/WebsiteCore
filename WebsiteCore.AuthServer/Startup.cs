@@ -9,6 +9,9 @@ using WebsiteCore.AuthServer.Models;
 using WebsiteCore.AuthServer.Services;
 using System.Reflection;
 using WebsiteCore.Foundation.Persistence;
+using IdentityServer4.Configuration;
+using Microsoft.AspNetCore.Identity;
+using WebsiteCore.Foundation;
 
 namespace WebsiteCore.AuthServer
 {
@@ -30,15 +33,7 @@ namespace WebsiteCore.AuthServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-
-            // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddMvc();
 
@@ -46,22 +41,14 @@ namespace WebsiteCore.AuthServer
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            services.AddIdentityServer()
-                .AddTemporarySigningCredential()
+            IIdentityServerBuilder identityServerBuilder = services
+                .AddIdentityServer()
                 //.AddSigningCredential()
-                .AddInMemoryPersistedGrants()
-                /* Add-Migration InitialIdentityServerMigration -Context PersistedGrantDbContext -OutputDir Data/Migrations/IdentityServer/PersistedGrantDb */
-                //.AddOperationalStore(builder =>
-                //    builder.UseSqlServer(connectionString, options =>
-                //        options.MigrationsAssembly(migrationsAssembly)))
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
-                /* Add-Migration InitialIdentityServerMigration -Context ConfigurationDbContext -OutputDir Data/Migrations/IdentityServer/ConfigurationDb */
-                //.AddConfigurationStore(builder =>
-                //    builder.UseSqlServer(connectionString, options =>
-                //        options.MigrationsAssembly(migrationsAssembly)))
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddTemporarySigningCredential();
+            
+            IdentityBuilder identityBuilder = AuthConfig.ConfigureServices(services, identityServerBuilder, connectionString);
+            identityBuilder.AddDefaultTokenProviders();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

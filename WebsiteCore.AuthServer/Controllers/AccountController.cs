@@ -15,6 +15,7 @@ using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Http.Authentication;
 using IdentityServer4.Quickstart.UI;
 using Microsoft.AspNetCore.Http;
+using WebsiteCore.Foundation.Core.Entities.Auth;
 
 namespace WebsiteCore.AuthServer.Controllers
 {
