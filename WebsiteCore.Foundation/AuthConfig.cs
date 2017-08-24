@@ -12,6 +12,11 @@ using IdentityServer4;
 using IdentityServer4.Test;
 using System.Security.Claims;
 using IdentityModel;
+using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
+using System.Linq;
 
 namespace WebsiteCore.Foundation
 {
@@ -19,7 +24,7 @@ namespace WebsiteCore.Foundation
     {
         public static IdentityBuilder ConfigureServices(IServiceCollection services, IIdentityServerBuilder identityServerBuilder, string connectionString)
         {
-            //var migrationsAssembly = typeof(AuthConfig).GetTypeInfo().Assembly.GetName().Name;
+            var migrationsAssembly = typeof(AuthConfig).GetTypeInfo().Assembly.GetName().Name;
 
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -47,68 +52,77 @@ namespace WebsiteCore.Foundation
             return identityBuilder;
         }
 
-        //public static void InitializeDbTestData(IApplicationBuilder app)
-        //{
-        //    using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-        //    {
-        //        scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-        //        scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
-        //        scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+        public static void InitializeConfigurationDb(IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
+                scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
 
-        //        var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
 
-        //        if (!context.Clients.Any())
-        //        {
-        //            foreach (var client in GetClients())
-        //            {
-        //                context.Clients.Add(client.ToEntity());
-        //            }
-        //            context.SaveChanges();
-        //        }
+                if (!context.Clients.Any())
+                {
+                    foreach (var client in GetClients())
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
 
-        //        if (!context.IdentityResources.Any())
-        //        {
-        //            foreach (var resource in GetIdentityResources())
-        //            {
-        //                context.IdentityResources.Add(resource.ToEntity());
-        //            }
-        //            context.SaveChanges();
-        //        }
+                if (!context.IdentityResources.Any())
+                {
+                    foreach (var resource in GetIdentityResources())
+                    {
+                        context.IdentityResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
 
-        //        if (!context.ApiResources.Any())
-        //        {
-        //            foreach (var resource in GetApiResources())
-        //            {
-        //                context.ApiResources.Add(resource.ToEntity());
-        //            }
-        //            context.SaveChanges();
-        //        }
+                if (!context.ApiResources.Any())
+                {
+                    foreach (var resource in GetApiResources())
+                    {
+                        context.ApiResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+            }
+        }
+        public static void InitializeAuthDb(IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
+                scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+                
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                if (!userManager.Users.Any())
+                {
+                    foreach (var testUser in GetUsers())
+                    {
+                        var identityUser = new IdentityUser(testUser.Username)
+                        {
+                            Id = testUser.SubjectId
+                        };
 
-        //        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-        //        if (!userManager.Users.Any())
-        //        {
-        //            foreach (var testUser in Users.Get())
-        //            {
-        //                var identityUser = new IdentityUser(testUser.Username)
-        //                {
-        //                    Id = testUser.SubjectId
-        //                };
+                        foreach (var claim in testUser.Claims)
+                        {
+                            identityUser.Claims.Add(new IdentityUserClaim<string>
+                            {
+                                UserId = identityUser.Id,
+                                ClaimType = claim.Type,
+                                ClaimValue = claim.Value,
+                            });
+                        }
 
-        //                foreach (var claim in testUser.Claims)
-        //                {
-        //                    identityUser.Claims.Add(new IdentityUserClaim<string>
-        //                    {
-        //                        UserId = identityUser.Id,
-        //                        ClaimType = claim.Type,
-        //                        ClaimValue = claim.Value,
-        //                    });
-        //                }
-
-        //                userManager.CreateAsync(identityUser, "Password123!").Wait();
-        //            }
-        //        }
-        //    }
-        //}
+                        userManager.CreateAsync(identityUser, testUser.Password).Wait();
+                    }
+                }
+            }
+        }
 
 
 
@@ -119,6 +133,11 @@ namespace WebsiteCore.Foundation
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResource {
+                    Name = "role",
+                    UserClaims = new List<string> {"role"}
+                }
             };
         }
 
@@ -126,7 +145,18 @@ namespace WebsiteCore.Foundation
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("api1", "My API"),
+                new ApiResource {
+                    Name = "customAPI",
+                    DisplayName = "Custom API",
+                    Description = "Custom API Access",
+                    UserClaims = new List<string> {"role"},
+                    ApiSecrets = new List<Secret> {new Secret("scopeSecret".Sha256())},
+                    Scopes = new List<Scope> {
+                        new Scope("customAPI.read"),
+                        new Scope("customAPI.write")
+                    }
+                }
             };
         }
 
@@ -188,7 +218,7 @@ namespace WebsiteCore.Foundation
                 }
             };
         }
-        private static List<TestUser> Get()
+        private static List<TestUser> GetUsers()
         {
             return new List<TestUser> {
                 new TestUser {
