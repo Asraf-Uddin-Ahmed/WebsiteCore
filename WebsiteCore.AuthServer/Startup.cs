@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using WebsiteCore.AuthServer.Data;
 using WebsiteCore.AuthServer.Models;
 using WebsiteCore.AuthServer.Services;
 using System.Reflection;
+using WebsiteCore.Foundation.Persistence;
 
 namespace WebsiteCore.AuthServer
 {

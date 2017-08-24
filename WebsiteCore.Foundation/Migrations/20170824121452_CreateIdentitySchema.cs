@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace WebsiteCore.AuthServer.Data.Migrations
+namespace WebsiteCore.Foundation.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
@@ -153,7 +151,8 @@ namespace WebsiteCore.AuthServer.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
-                column: "NormalizedName");
+                column: "NormalizedName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -174,11 +173,6 @@ namespace WebsiteCore.AuthServer.Data.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_UserId",
-                table: "AspNetUserRoles",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
