@@ -32,8 +32,8 @@ namespace WebsiteCore.Foundation
                 options.UseSqlServer(connectionString));
 
             IdentityBuilder identityBuilder = services
-                .AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext, Guid>();
 
             identityServerBuilder
                 .AddInMemoryPersistedGrants()

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WebsiteCore.Foundation.Core.Entities.Auth
 {
-    public class ApplicationUser : IdentityUser<Guid>
+    public class ApplicationRole : IdentityRole<Guid>
     {
     }
 }

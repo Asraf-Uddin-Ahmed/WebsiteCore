@@ -7,7 +7,7 @@ using WebsiteCore.Foundation.Core.Entities.Auth;
 
 namespace WebsiteCore.Foundation.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
