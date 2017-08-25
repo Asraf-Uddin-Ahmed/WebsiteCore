@@ -65,7 +65,6 @@ namespace WebsiteCore.Foundation
             {
                 scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
                 scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
-                scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
 
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
 
@@ -101,8 +100,6 @@ namespace WebsiteCore.Foundation
         {
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-                scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
                 scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
                 
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
