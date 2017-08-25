@@ -60,7 +60,7 @@ namespace WebsiteCore.AuthServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
             }
             else
@@ -88,6 +88,8 @@ namespace WebsiteCore.AuthServer
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            AuthConfig.ConfigureApp(app, env);
         }
     }
 }

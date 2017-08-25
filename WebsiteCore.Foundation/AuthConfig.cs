@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebsiteCore.Foundation
 {
@@ -51,7 +52,13 @@ namespace WebsiteCore.Foundation
 
             return identityBuilder;
         }
-
+        public static void ConfigureApp(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDatabaseErrorPage();
+            }
+        }
         public static void InitializeConfigurationDb(IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
