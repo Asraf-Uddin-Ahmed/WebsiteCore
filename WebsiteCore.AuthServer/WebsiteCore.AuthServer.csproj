@@ -6,6 +6,10 @@
     <UserSecretsId>aspnet-WebsiteCore.AuthServer-869D87F8-CDF5-4D9A-987D-08FA8E8C568D</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Validators\CustomUserValidator.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="1.5.2" />

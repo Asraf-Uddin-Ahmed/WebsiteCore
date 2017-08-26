@@ -12,6 +12,8 @@ using WebsiteCore.Foundation.Persistence;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using WebsiteCore.Foundation;
+using WebsiteCore.AuthServer.Validators;
+using WebsiteCore.Foundation.Core.Entities.Auth;
 
 namespace WebsiteCore.AuthServer
 {
@@ -41,13 +43,21 @@ namespace WebsiteCore.AuthServer
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
+            IdentityBuilder identityBuilder = services
+                .AddIdentity<ApplicationUser, ApplicationRole>(options =>
+                {
+                    options.Password = ApplicationPasswordValidator.Configure();
+                })
+                .AddPasswordValidator<SameCharacterPasswordValidator>()
+                .AddPasswordValidator<CommonlyUsedPasswordValidator>()
+                .AddDefaultTokenProviders();
+
             IIdentityServerBuilder identityServerBuilder = services
                 .AddIdentityServer()
                 //.AddSigningCredential()
                 .AddTemporarySigningCredential();
             
-            IdentityBuilder identityBuilder = AuthConfig.ConfigureServices(services, identityServerBuilder, connectionString);
-            identityBuilder.AddDefaultTokenProviders();
+            AuthConfig.ConfigureServices(services, identityBuilder, identityServerBuilder, connectionString);
 
         }
 

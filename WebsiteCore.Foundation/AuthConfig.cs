@@ -23,17 +23,14 @@ namespace WebsiteCore.Foundation
 {
     public class AuthConfig
     {
-        public static IdentityBuilder ConfigureServices(IServiceCollection services, IIdentityServerBuilder identityServerBuilder, string connectionString)
+        public static void ConfigureServices(IServiceCollection services, IdentityBuilder identityBuilder, IIdentityServerBuilder identityServerBuilder, string connectionString)
         {
             var migrationsAssembly = typeof(AuthConfig).GetTypeInfo().Assembly.GetName().Name;
 
-            // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            IdentityBuilder identityBuilder = services
-                .AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext, Guid>();
+            identityBuilder.AddEntityFrameworkStores<ApplicationDbContext, Guid>();
 
             identityServerBuilder
                 .AddInMemoryPersistedGrants()
@@ -50,7 +47,6 @@ namespace WebsiteCore.Foundation
                 //        options.MigrationsAssembly(migrationsAssembly)))
                 .AddAspNetIdentity<ApplicationUser>();
 
-            return identityBuilder;
         }
         public static void ConfigureApp(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -227,10 +223,10 @@ namespace WebsiteCore.Foundation
             return new List<TestUser> {
                 new TestUser {
                     SubjectId = "5BE86359-073C-434B-AD2D-A3932222DABE",
-                    Username = "scott",
-                    Password = "password",
+                    Username = "ratul",
+                    Password = "Password1!",
                     Claims = new List<Claim> {
-                        new Claim(JwtClaimTypes.Email, "scott@scottbrady91.com"),
+                        new Claim(JwtClaimTypes.Email, "13ratul@gmail.com"),
                         new Claim(JwtClaimTypes.Role, "admin")
                     }
                 }
