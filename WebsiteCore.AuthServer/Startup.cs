@@ -47,9 +47,11 @@ namespace WebsiteCore.AuthServer
                 .AddIdentity<ApplicationUser, ApplicationRole>(options =>
                 {
                     options.Password = ApplicationPasswordValidator.Configure();
+                    options.User = ApplicationUserValidator.Configure();
                 })
                 .AddPasswordValidator<SameCharacterPasswordValidator>()
                 .AddPasswordValidator<CommonlyUsedPasswordValidator>()
+                .AddUserValidator<EmailDomainOfUserValidator>()
                 .AddDefaultTokenProviders();
 
             IIdentityServerBuilder identityServerBuilder = services
