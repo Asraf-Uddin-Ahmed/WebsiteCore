@@ -9,9 +9,10 @@ using WebsiteCore.Foundation.Core.Enums;
 namespace WebsiteCore.Foundation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170908063628_CreateSettingsTable")]
+    partial class CreateSettingsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
