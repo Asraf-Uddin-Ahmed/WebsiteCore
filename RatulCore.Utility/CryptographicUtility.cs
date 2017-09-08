@@ -17,101 +17,68 @@ namespace RatulCore.Utility
 {
     public static class CryptographicUtility
     {
-        private static byte[] EncryptStringToBytes(string plainText, byte[] Key, byte[] IV)
+        public static string Encrypt(string text, string key)
         {
-            // Check arguments. 
-            if (plainText == null || plainText.Length <= 0)
-                throw new ArgumentNullException("plainText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
-            byte[] encrypted;
-            // Create an RijndaelManaged object 
-            // with the specified key and IV. 
-            using (RijndaelManaged rijAlg = new RijndaelManaged())
+            var keyBytes = Encoding.UTF8.GetBytes(key);
+
+            using (var aesAlg = Aes.Create())
             {
-                rijAlg.Key = Key;
-                rijAlg.IV = IV;
-
-                // Create a decrytor to perform the stream transform.
-                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
-
-                // Create the streams used for encryption. 
-                using (MemoryStream msEncrypt = new MemoryStream())
+                using (var encryptor = aesAlg.CreateEncryptor(keyBytes, aesAlg.IV))
                 {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    using (var msEncrypt = new MemoryStream())
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                        using (var swEncrypt = new StreamWriter(csEncrypt))
                         {
-
-                            //Write all data to the stream.
-                            swEncrypt.Write(plainText);
+                            swEncrypt.Write(text);
                         }
-                        encrypted = msEncrypt.ToArray();
+
+                        var iv = aesAlg.IV;
+
+                        var decryptedContent = msEncrypt.ToArray();
+
+                        var result = new byte[iv.Length + decryptedContent.Length];
+
+                        Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
+                        Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
+
+                        return Convert.ToBase64String(result);
                     }
                 }
             }
-            // Return the encrypted bytes from the memory stream. 
-            return encrypted;
         }
 
-        private static string DecryptStringFromBytes(byte[] cipherText, byte[] Key, byte[] IV)
+        public static string Decrypt(string cipherText, string key)
         {
-            // Check arguments. 
-            if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
+            var fullCipher = Convert.FromBase64String(cipherText);
 
-            // Declare the string used to hold 
-            // the decrypted text. 
-            string plaintext = null;
+            var iv = new byte[16];
+            var cipher = new byte[16];
 
-            // Create an RijndaelManaged object 
-            // with the specified key and IV. 
-            using (RijndaelManaged rijAlg = new RijndaelManaged())
+            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
+            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, iv.Length);
+            var keyBytes = Encoding.UTF8.GetBytes(key);
+
+            using (var aesAlg = Aes.Create())
             {
-                rijAlg.Key = Key;
-                rijAlg.IV = IV;
-
-                // Create a decrytor to perform the stream transform.
-                ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
-
-                // Create the streams used for decryption. 
-                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
+                using (var decryptor = aesAlg.CreateDecryptor(keyBytes, iv))
                 {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    string result;
+                    using (var msDecrypt = new MemoryStream(cipher))
                     {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                         {
-                            // Read the decrypted bytes from the decrypting stream 
-                            // and place them in a string.
-                            plaintext = srDecrypt.ReadToEnd();
+                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                result = srDecrypt.ReadToEnd();
+                            }
                         }
                     }
+
+                    return result;
                 }
-
             }
-            return plaintext;
         }
-
-        public static string Encrypt(string original, Guid key)
-        {
-            byte[] keys = key.ToByteArray();
-            byte[] encryptedBytes = EncryptStringToBytes(original, keys, keys);
-            string encrypted = Encoding.Default.GetString(encryptedBytes);
-            return encrypted;
-        }
-
-        public static string Decrypt(string encrypted, Guid key)
-        {
-            byte[] keys = key.ToByteArray();
-            byte[] encryptedBytes = Encoding.Default.GetBytes(encrypted);
-            string decrypted = DecryptStringFromBytes(encryptedBytes, keys, keys);
-            return decrypted;
-        }
+        
     }
 }
