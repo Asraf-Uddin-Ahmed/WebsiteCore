@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RatulCore.Utility\RatulCore.Utility.csproj" />
+  </ItemGroup>
+
 </Project>
