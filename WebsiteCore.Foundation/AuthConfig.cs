@@ -118,27 +118,27 @@ namespace WebsiteCore.Foundation
             {
                 roleManager.CreateAsync(new ApplicationRole { Name = ApplicationRoles.ADMIN }).Wait();
             }
-            if (!roleManager.Roles.Any(r => r.Name == ApplicationRoles.SUPER_ADMIN))
+            if (!roleManager.Roles.Any(r => r.Name == ApplicationRoles.DEVELOPER))
             {
-                roleManager.CreateAsync(new ApplicationRole { Name = ApplicationRoles.SUPER_ADMIN }).Wait();
+                roleManager.CreateAsync(new ApplicationRole { Name = ApplicationRoles.DEVELOPER }).Wait();
             }
-            if (!roleManager.Roles.Any(r => r.Name == ApplicationRoles.USER))
+            if (!roleManager.Roles.Any(r => r.Name == ApplicationRoles.EMPLOYEE))
             {
-                roleManager.CreateAsync(new ApplicationRole { Name = ApplicationRoles.USER }).Wait();
+                roleManager.CreateAsync(new ApplicationRole { Name = ApplicationRoles.EMPLOYEE }).Wait();
             }
         }
         private static void PopulateUserTable(UserManager<ApplicationUser> userManager)
         {
-            if (!userManager.Users.Any(r => r.UserName == "SuperAdminUser"))
+            if (!userManager.Users.Any(r => r.UserName == "DeveloperUser"))
             {
                 var superAdminUser = new ApplicationUser()
                 {
-                    UserName = "SuperAdminUser",
+                    UserName = "DeveloperUser",
                     Email = "13ratul@gmail.com",
                     EmailConfirmed = true
                 };
-                userManager.CreateAsync(superAdminUser, "saP@ssword123").Wait();
-                userManager.AddToRoleAsync(superAdminUser, ApplicationRoles.SUPER_ADMIN).Wait();
+                userManager.CreateAsync(superAdminUser, "dP@ssword123").Wait();
+                userManager.AddToRoleAsync(superAdminUser, ApplicationRoles.DEVELOPER).Wait();
             }
 
             if (!userManager.Users.Any(r => r.UserName == "AdminUser"))
@@ -153,16 +153,16 @@ namespace WebsiteCore.Foundation
                 userManager.AddToRoleAsync(adminUser, ApplicationRoles.ADMIN).Wait();
             }
 
-            if (!userManager.Users.Any(r => r.UserName == "NormalUser"))
+            if (!userManager.Users.Any(r => r.UserName == "EmployeeUser"))
             {
                 var appUser = new ApplicationUser()
                 {
-                    UserName = "NormalUser",
-                    Email = "13ratul+user@gmail.com",
+                    UserName = "EmployeeUser",
+                    Email = "13ratul+employee@gmail.com",
                     EmailConfirmed = true
                 };
                 userManager.CreateAsync(appUser, "uP@ssword123").Wait();
-                userManager.AddToRoleAsync(appUser, ApplicationRoles.USER).Wait();
+                userManager.AddToRoleAsync(appUser, ApplicationRoles.EMPLOYEE).Wait();
             }
         }
         // scopes define the resources in your system

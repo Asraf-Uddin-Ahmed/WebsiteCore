@@ -8,8 +8,8 @@ namespace WebsiteCore.Foundation.Core.Constant
 {
     public static class ApplicationRoles
     {
-        public const string SUPER_ADMIN = "SuperAdmin";
+        public const string DEVELOPER = "Developer";
         public const string ADMIN = "Admin";
-        public const string USER = "User";
+        public const string EMPLOYEE = "Employee";
     }
 }
