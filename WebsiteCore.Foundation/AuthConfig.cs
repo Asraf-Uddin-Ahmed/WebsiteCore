@@ -18,6 +18,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
+using WebsiteCore.Foundation.Core.Constant;
 
 namespace WebsiteCore.Foundation
 {
@@ -97,35 +98,73 @@ namespace WebsiteCore.Foundation
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
-                
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                if (!userManager.Users.Any())
-                {
-                    foreach (var testUser in GetUsers())
-                    {
-                        var identityUser = new IdentityUser(testUser.Username)
-                        {
-                            Id = testUser.SubjectId
-                        };
 
-                        foreach (var claim in testUser.Claims)
-                        {
-                            identityUser.Claims.Add(new IdentityUserClaim<string>
-                            {
-                                UserId = identityUser.Id,
-                                ClaimType = claim.Type,
-                                ClaimValue = claim.Value,
-                            });
-                        }
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+                PopulateRolesTable(roleManager);
+                roleManager.Dispose();
 
-                        userManager.CreateAsync(identityUser, testUser.Password).Wait();
-                    }
-                }
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                PopulateUserTable(userManager);
+                userManager.Dispose();
+
             }
         }
 
 
 
+        private static void PopulateRolesTable(RoleManager<ApplicationRole> roleManager)
+        {
+            if (!roleManager.Roles.Any(r => r.Name == ApplicationRoles.ADMIN))
+            {
+                roleManager.CreateAsync(new ApplicationRole { Name = ApplicationRoles.ADMIN }).Wait();
+            }
+            if (!roleManager.Roles.Any(r => r.Name == ApplicationRoles.SUPER_ADMIN))
+            {
+                roleManager.CreateAsync(new ApplicationRole { Name = ApplicationRoles.SUPER_ADMIN }).Wait();
+            }
+            if (!roleManager.Roles.Any(r => r.Name == ApplicationRoles.USER))
+            {
+                roleManager.CreateAsync(new ApplicationRole { Name = ApplicationRoles.USER }).Wait();
+            }
+        }
+        private static void PopulateUserTable(UserManager<ApplicationUser> userManager)
+        {
+            if (!userManager.Users.Any(r => r.UserName == "SuperAdminUser"))
+            {
+                var superAdminUser = new ApplicationUser()
+                {
+                    UserName = "SuperAdminUser",
+                    Email = "13ratul@gmail.com",
+                    EmailConfirmed = true
+                };
+                userManager.CreateAsync(superAdminUser, "saP@ssword123").Wait();
+                userManager.AddToRoleAsync(superAdminUser, ApplicationRoles.SUPER_ADMIN).Wait();
+            }
+
+            if (!userManager.Users.Any(r => r.UserName == "AdminUser"))
+            {
+                var adminUser = new ApplicationUser()
+                {
+                    UserName = "AdminUser",
+                    Email = "13ratul+admin@gmail.com",
+                    EmailConfirmed = true
+                };
+                userManager.CreateAsync(adminUser, "aP@ssword123").Wait();
+                userManager.AddToRoleAsync(adminUser, ApplicationRoles.ADMIN).Wait();
+            }
+
+            if (!userManager.Users.Any(r => r.UserName == "NormalUser"))
+            {
+                var appUser = new ApplicationUser()
+                {
+                    UserName = "NormalUser",
+                    Email = "13ratul+user@gmail.com",
+                    EmailConfirmed = true
+                };
+                userManager.CreateAsync(appUser, "uP@ssword123").Wait();
+                userManager.AddToRoleAsync(appUser, ApplicationRoles.USER).Wait();
+            }
+        }
         // scopes define the resources in your system
         private static IEnumerable<IdentityResource> GetIdentityResources()
         {
@@ -215,20 +254,6 @@ namespace WebsiteCore.Foundation
                         "api1"
                     },
                     AllowOfflineAccess = true
-                }
-            };
-        }
-        private static List<TestUser> GetUsers()
-        {
-            return new List<TestUser> {
-                new TestUser {
-                    SubjectId = "5BE86359-073C-434B-AD2D-A3932222DABE",
-                    Username = "ratul",
-                    Password = "Password1!",
-                    Claims = new List<Claim> {
-                        new Claim(JwtClaimTypes.Email, "13ratul@gmail.com"),
-                        new Claim(JwtClaimTypes.Role, "admin")
-                    }
                 }
             };
         }

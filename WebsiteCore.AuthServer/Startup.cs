@@ -102,6 +102,8 @@ namespace WebsiteCore.AuthServer
             });
 
             AuthConfig.ConfigureApp(app, env);
+            AuthConfig.InitializeAuthDb(app);
+
             DbSeeder.Seed(app);
 
         }
