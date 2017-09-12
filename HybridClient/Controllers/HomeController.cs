@@ -58,5 +58,25 @@ namespace HybridClient.Controllers
             ViewBag.Json = JArray.Parse(content).ToString();
             return View("json");
         }
+
+        public async Task<IActionResult> CallApiValues(ActionNameOfValueResourceApi actionName)
+        {
+            var accessToken = await HttpContext.Authentication.GetTokenAsync("access_token");
+
+            var client = new HttpClient();
+            client.SetBearerToken(accessToken);
+            var content = await client.GetStringAsync("http://localhost:5001/values/" + actionName.ToString());
+
+            ViewBag.Json = content.ToString();
+            return View("json");
+        }
+
+        public enum ActionNameOfValueResourceApi
+        {
+            authorize,
+            admin,
+            developer,
+            employee
+        }
     }
 }

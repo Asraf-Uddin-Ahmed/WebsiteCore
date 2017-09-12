@@ -12,6 +12,18 @@
 <div>
     <a asp-action="CallApiUsingClientCredentials">Call API using application identity</a>
 </div>
+<div>
+    <a asp-action="CallApiValues" asp-route-actionName="authorize">Call API values/authorize</a>
+</div>
+<div>
+    <a asp-action="CallApiValues" asp-route-actionName="admin">Call API values/admin</a>
+</div>
+<div>
+    <a asp-action="CallApiValues" asp-route-actionName="developer">Call API values/developer</a>
+</div>
+<div>
+    <a asp-action="CallApiValues" asp-route-actionName="employee">Call API values/employee</a>
+</div>
 
 <dl>
     @foreach (var claim in User.Claims)
