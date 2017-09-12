@@ -184,7 +184,10 @@ namespace WebsiteCore.Foundation
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API"),
+                new ApiResource("api1", "My API")
+                {
+                    UserClaims = {"role"}
+                },
                 new ApiResource {
                     Name = "customAPI",
                     DisplayName = "Custom API",
@@ -254,6 +257,29 @@ namespace WebsiteCore.Foundation
                         "api1"
                     },
                     AllowOfflineAccess = true
+                },
+                // OpenID Connect authorization code flow (POSTMAN)
+                new Client
+                {
+                    ClientId = "postman",
+                    ClientName = "Postman Client",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+
+                    RedirectUris = { "https://www.getpostman.com/oauth2/callback" },
+                    PostLogoutRedirectUris = { "https://www.getpostman.com" },
+                    AllowedCorsOrigins = { "https://www.getpostman.com" },
+
+                    EnableLocalLogin = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "api1"
+                    },
+                    ClientSecrets = { new Secret("secret".Sha256()) }
                 }
             };
         }
