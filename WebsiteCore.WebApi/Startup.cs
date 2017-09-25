@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebsiteCore.Foundation.Core.Constant;
 
 namespace WebsiteCore.WebApi
 {
@@ -27,7 +28,10 @@ namespace WebsiteCore.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore()
-                .AddAuthorization()
+                .AddAuthorization(option =>
+                {
+                    option.AddPolicy(ApplicationPolicy.DEVELOPER_ONLY, policy => policy.RequireClaim("role", ApplicationRoles.DEVELOPER));
+                })
                 .AddJsonFormatters();
         }
 

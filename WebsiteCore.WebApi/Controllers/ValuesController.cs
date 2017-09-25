@@ -25,6 +25,13 @@ namespace WebsiteCore.WebApi.Controllers
         {
             return "This is from Developer";
         }
+        [Authorize(Policy = ApplicationPolicy.DEVELOPER_ONLY)]
+        [Route("developerpolicy")]
+        [HttpGet]
+        public string GetForDeveloperPolicy()
+        {
+            return "This is from Developer POLICY";
+        }
         [Authorize(Roles = ApplicationRoles.EMPLOYEE)]
         [Route("employee")]
         [HttpGet]

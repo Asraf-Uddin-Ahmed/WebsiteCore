@@ -76,7 +76,8 @@ namespace HybridClient.Controllers
             authorize,
             admin,
             developer,
-            employee
+            employee,
+            developerpolicy
         }
     }
 }
