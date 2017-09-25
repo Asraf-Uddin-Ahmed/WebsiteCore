@@ -174,7 +174,7 @@ namespace WebsiteCore.Foundation
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
                 new IdentityResource {
-                    Name = "role",
+                    Name = "roles",
                     UserClaims = new List<string> {"role"}
                 }
             };
