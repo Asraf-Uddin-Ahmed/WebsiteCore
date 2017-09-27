@@ -186,7 +186,7 @@ namespace WebsiteCore.Foundation
             {
                 new ApiResource("api1", "My API")
                 {
-                    UserClaims = {"role"}
+                    UserClaims = {"role", ApplicationClaims.EXPERIENCE }
                 },
                 new ApiResource {
                     Name = "customAPI",

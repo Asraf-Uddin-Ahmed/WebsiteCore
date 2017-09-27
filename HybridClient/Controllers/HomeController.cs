@@ -77,7 +77,8 @@ namespace HybridClient.Controllers
             admin,
             developer,
             employee,
-            developerpolicy
+            developerpolicy,
+            yearsofexeperiencepolicy
         }
     }
 }

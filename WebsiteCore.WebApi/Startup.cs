@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebsiteCore.Foundation.Core.Constant;
+using WebsiteCore.WebApi.Authorization;
 
 namespace WebsiteCore.WebApi
 {
@@ -30,9 +32,15 @@ namespace WebsiteCore.WebApi
             services.AddMvcCore()
                 .AddAuthorization(option =>
                 {
-                    option.AddPolicy(ApplicationPolicy.DEVELOPER_ONLY, policy => policy.RequireClaim("role", ApplicationRoles.DEVELOPER));
+                    option.AddPolicy(ApplicationPolicy.DEVELOPER_ONLY, 
+                        policy => policy.RequireClaim("role", ApplicationRoles.DEVELOPER));
+
+                    option.AddPolicy(ApplicationPolicy.YEARS_OF_EXEPERIENCE, 
+                        policy => policy.AddRequirements(new YearsOfExperienceRequirement(6)));
                 })
                 .AddJsonFormatters();
+
+            services.AddSingleton<IAuthorizationHandler, YearsOfExperienceAuthorizationHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

@@ -32,6 +32,13 @@ namespace WebsiteCore.WebApi.Controllers
         {
             return "This is from Developer POLICY";
         }
+        [Authorize(Policy = ApplicationPolicy.YEARS_OF_EXEPERIENCE)]
+        [Route("yearsofexeperiencepolicy")]
+        [HttpGet]
+        public string GetForYearsOfExeperiencePolicy()
+        {
+            return "This is from YEARS_OF_EXEPERIENCE POLICY";
+        }
         [Authorize(Roles = ApplicationRoles.EMPLOYEE)]
         [Route("employee")]
         [HttpGet]
