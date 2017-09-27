@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebsiteCore.Foundation.Core.Constant
 {
-    public static class ApplicationPolicy
+    public static class ApplicationPolicies
     {
         public const string DEVELOPER_ONLY = "DeveloperOnly";
         public const string YEARS_OF_EXEPERIENCE = "YearsOfExeperience";

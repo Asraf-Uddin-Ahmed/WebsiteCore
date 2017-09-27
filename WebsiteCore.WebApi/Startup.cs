@@ -32,10 +32,10 @@ namespace WebsiteCore.WebApi
             services.AddMvcCore()
                 .AddAuthorization(option =>
                 {
-                    option.AddPolicy(ApplicationPolicy.DEVELOPER_ONLY, 
+                    option.AddPolicy(ApplicationPolicies.DEVELOPER_ONLY, 
                         policy => policy.RequireClaim("role", ApplicationRoles.DEVELOPER));
 
-                    option.AddPolicy(ApplicationPolicy.YEARS_OF_EXEPERIENCE, 
+                    option.AddPolicy(ApplicationPolicies.YEARS_OF_EXEPERIENCE, 
                         policy => policy.AddRequirements(new YearsOfExperienceRequirement(6)));
                 })
                 .AddJsonFormatters();

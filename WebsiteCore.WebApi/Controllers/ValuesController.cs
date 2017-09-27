@@ -25,14 +25,14 @@ namespace WebsiteCore.WebApi.Controllers
         {
             return "This is from Developer";
         }
-        [Authorize(Policy = ApplicationPolicy.DEVELOPER_ONLY)]
+        [Authorize(Policy = ApplicationPolicies.DEVELOPER_ONLY)]
         [Route("developerpolicy")]
         [HttpGet]
         public string GetForDeveloperPolicy()
         {
             return "This is from Developer POLICY";
         }
-        [Authorize(Policy = ApplicationPolicy.YEARS_OF_EXEPERIENCE)]
+        [Authorize(Policy = ApplicationPolicies.YEARS_OF_EXEPERIENCE)]
         [Route("yearsofexeperiencepolicy")]
         [HttpGet]
         public string GetForYearsOfExeperiencePolicy()
