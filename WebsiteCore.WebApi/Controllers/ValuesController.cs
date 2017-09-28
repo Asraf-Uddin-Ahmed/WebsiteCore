@@ -5,12 +5,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using WebsiteCore.Foundation.Core.Constant;
+using WebsiteCore.WebApi.Models.Request.Value;
 
 namespace WebsiteCore.WebApi.Controllers
 {
     [Route("[controller]")]
     public class ValuesController : Controller
     {
+        private readonly IAuthorizationService _authorizationService;
+        public ValuesController(IAuthorizationService authorizationService)
+        {
+            _authorizationService = authorizationService;
+        }
+
         [Authorize(Roles = ApplicationRoles.ADMIN)]
         [Route("admin")]
         [HttpGet]
@@ -53,6 +60,17 @@ namespace WebsiteCore.WebApi.Controllers
         {
             return "This is from Authorized";
         }
+        [Route("resourcebasedauthorization/approved/{Approved}")]
+        [HttpGet]
+        public async Task<string> GetForResourceBasedPolicyAuthorzation(ResourceBasedPolicyRequestModel requestModel)
+        {
+            if (await _authorizationService.AuthorizeAsync(User, requestModel, ApplicationPolicies.RESOURCE_BASED_AUTHORIZATION))
+            {
+                return "ACCEPTED from ResourceBasedPolicyAuthorzation";
+            }
+            return "REJECTED from ResourceBasedPolicyAuthorzation";
+        }
+
         // GET values
         [HttpGet]
         public IEnumerable<string> Get()

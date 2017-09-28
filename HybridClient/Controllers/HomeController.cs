@@ -78,7 +78,8 @@ namespace HybridClient.Controllers
             developer,
             employee,
             developerpolicy,
-            yearsofexeperiencepolicy
+            yearsofexeperiencepolicy,
+            resourcebasedauthorization
         }
     }
 }

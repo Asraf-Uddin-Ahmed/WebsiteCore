@@ -10,5 +10,6 @@ namespace WebsiteCore.Foundation.Core.Constant
     {
         public const string DEVELOPER_ONLY = "DeveloperOnly";
         public const string YEARS_OF_EXEPERIENCE = "YearsOfExeperience";
+        public const string RESOURCE_BASED_AUTHORIZATION = "ResourceBasedAuthorization";
     }
 }

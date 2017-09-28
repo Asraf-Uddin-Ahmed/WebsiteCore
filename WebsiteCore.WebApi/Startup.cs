@@ -37,9 +37,14 @@ namespace WebsiteCore.WebApi
 
                     option.AddPolicy(ApplicationPolicies.YEARS_OF_EXEPERIENCE, 
                         policy => policy.AddRequirements(new YearsOfExperienceRequirement(6)));
+
+                    option.AddPolicy(ApplicationPolicies.RESOURCE_BASED_AUTHORIZATION,
+                        policy => policy.AddRequirements(new ResourceBasedPolicyRequirement(false)));
+
                 })
                 .AddJsonFormatters();
 
+            services.AddSingleton<IAuthorizationHandler, ResourceBasedPolicyAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, YearsOfExperienceAuthorizationHandler>();
         }
 
