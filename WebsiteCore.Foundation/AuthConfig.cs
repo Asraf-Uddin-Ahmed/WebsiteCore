@@ -240,7 +240,8 @@ namespace WebsiteCore.Foundation
                     ClientName = "MVC Client",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
 
-                    RequireConsent = true,
+                    // Default value is 'true', it will show consent page for grant scope permission.
+                    RequireConsent = false,
 
                     ClientSecrets =
                     {
