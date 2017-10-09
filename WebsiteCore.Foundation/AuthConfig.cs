@@ -241,7 +241,7 @@ namespace WebsiteCore.Foundation
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
 
                     // Default value is 'true', it will show consent page for grant scope permission.
-                    RequireConsent = false,
+                    //RequireConsent = false,
 
                     ClientSecrets =
                     {

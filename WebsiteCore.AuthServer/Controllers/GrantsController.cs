@@ -9,14 +9,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using WebsiteCore.Foundation.Core.Constant;
+using IdentityServer4.Quickstart.UI;
 
-namespace IdentityServer4.Quickstart.UI
+namespace WebsiteCore.AuthServer.Controllers
 {
     /// <summary>
     /// This sample controller allows a user to revoke grants given to clients
     /// </summary>
     [SecurityHeaders]
-    [Authorize(ActiveAuthenticationSchemes = IdentityServer4.IdentityServerConstants.DefaultCookieAuthenticationScheme)]
+    //[Authorize(ActiveAuthenticationSchemes = IdentityServer4.IdentityServerConstants.DefaultCookieAuthenticationScheme)]
+    [Authorize(Roles = ApplicationRoles.ADMIN)]
     public class GrantsController : Controller
     {
         private readonly IIdentityServerInteractionService _interaction;
