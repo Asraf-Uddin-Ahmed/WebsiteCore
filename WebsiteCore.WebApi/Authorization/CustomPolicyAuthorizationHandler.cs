@@ -7,9 +7,9 @@ using WebsiteCore.Foundation.Core.Constant;
 
 namespace WebsiteCore.WebApi.Authorization
 {
-    public class YearsOfExperienceAuthorizationHandler : AuthorizationHandler<YearsOfExperienceRequirement>
+    public class YearsOfExperienceAuthorizationHandler : AuthorizationHandler<CustomPolicyRequirement>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, YearsOfExperienceRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CustomPolicyRequirement requirement)
         {
             if (!context.User.HasClaim(c => c.Type == ApplicationClaims.EXPERIENCE))
                 return Task.CompletedTask;

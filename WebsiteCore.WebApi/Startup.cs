@@ -35,8 +35,8 @@ namespace WebsiteCore.WebApi
                     option.AddPolicy(ApplicationPolicies.DEVELOPER_ONLY, 
                         policy => policy.RequireClaim("role", ApplicationRoles.DEVELOPER));
 
-                    option.AddPolicy(ApplicationPolicies.YEARS_OF_EXEPERIENCE, 
-                        policy => policy.AddRequirements(new YearsOfExperienceRequirement(6)));
+                    option.AddPolicy(ApplicationPolicies.CUSTOM_POLICY_AUTHORIZATION, 
+                        policy => policy.AddRequirements(new CustomPolicyRequirement(6)));
 
                     option.AddPolicy(ApplicationPolicies.RESOURCE_BASED_AUTHORIZATION,
                         policy => policy.AddRequirements(new ResourceBasedPolicyRequirement(false)));

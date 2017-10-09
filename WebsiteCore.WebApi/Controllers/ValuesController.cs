@@ -39,7 +39,7 @@ namespace WebsiteCore.WebApi.Controllers
         {
             return "This is from Developer POLICY";
         }
-        [Authorize(Policy = ApplicationPolicies.YEARS_OF_EXEPERIENCE)]
+        [Authorize(Policy = ApplicationPolicies.CUSTOM_POLICY_AUTHORIZATION)]
         [Route("yearsofexeperiencepolicy")]
         [HttpGet]
         public string GetForYearsOfExeperiencePolicy()

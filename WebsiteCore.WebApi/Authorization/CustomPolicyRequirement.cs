@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace WebsiteCore.WebApi.Authorization
 {
-    public class YearsOfExperienceRequirement: IAuthorizationRequirement
+    public class CustomPolicyRequirement: IAuthorizationRequirement
     {
         public int YearsOfExperienceRequired { get; set; }
-        public YearsOfExperienceRequirement(int yearsOfExperienceRequired)
+        public CustomPolicyRequirement(int yearsOfExperienceRequired)
         {
             YearsOfExperienceRequired = yearsOfExperienceRequired;
         }
